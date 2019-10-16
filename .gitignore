@@ -1,0 +1,4 @@
+.env
+nette/vendor
+symfony/vendor
+docker/data

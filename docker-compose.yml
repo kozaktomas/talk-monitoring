@@ -1,0 +1,74 @@
+version: '3'
+
+services:
+    symfony:
+        build: ./symfony
+        ports:
+          - 81:80
+        volumes:
+          - ./symfony:/var/www/html:delegated
+        environment:
+          DD_AGENT_HOST: "dd"
+          DD_TRACE_ENABLED: "true"
+          DD_TRACE_HTTP_CLIENT_SPLIT_BY_DOMAIN: "true"
+          DD_SERVICE_NAME: "symfony"
+          DD_DISTRIBUTED_TRACING: "true"
+    nette:
+        build: ./nette
+        ports:
+          - 82:80
+        volumes:
+          - ./nette:/var/www/html:delegated
+        environment:
+          DD_AGENT_HOST: "dd"
+          DD_TRACE_ENABLED: "true"
+          DD_TRACE_HTTP_CLIENT_SPLIT_BY_DOMAIN: "true"
+          DD_SERVICE_NAME: "nette"
+          DD_DISTRIBUTED_TRACING: "true"
+    symfony_nr:
+        build: ./symfony/docker/new-relic
+        ports:
+          - 91:80
+        volumes:
+          - ./symfony:/var/www/html:delegated
+        env_file:
+          - .env_nr
+        environment:
+          DD_AGENT_HOST: "dd"
+    redis:
+        image: redis:latest
+    db:
+        ports:
+          - '5432:5432'
+        image: postgres:9
+        environment:
+          POSTGRES_USER: user
+          POSTGRES_PASSWORD: pass
+          POSTGRES_DB: db
+        volumes:
+           - ./docker/data/db/postgres:/var/lib/postgresql/data:delegated
+        env_file:
+          - .env
+    dd:
+        image: datadog/agent
+        env_file:
+          - .env
+    prom:
+        image: quay.io/prometheus/prometheus:v2.0.0
+        volumes:
+         - ./docker/prometheus.yml:/etc/prometheus/prometheus.yml:delegated
+        command: "--config.file=/etc/prometheus/prometheus.yml --storage.tsdb.path=/prometheus"
+        ports:
+         - 9090:9090
+    grafana:
+        image: grafana/grafana
+        ports:
+         - "3000:3000"
+        depends_on:
+          - prom
+    adminer:
+        image: adminer
+        ports:
+          - 8080:8080
+        links:
+          - db

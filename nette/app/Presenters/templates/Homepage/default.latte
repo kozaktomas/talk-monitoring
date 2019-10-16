@@ -1,0 +1,22 @@
+{* This is the welcome page, you can delete it *}
+
+{block content}
+<div id="banner">
+	<h1 n:block=title>Congratulations!</h1>
+</div>
+
+<div id="content">
+	<h2>Articles:</h2>
+	<table border="2">
+
+		{foreach $articles as $article}
+			<tr>
+				<td>{$article['id']}</td>
+				<td>{$article['title']}</td>
+				<td><a n:href="detail $article['id']">DETAIL</a></td>
+			</tr>
+		{/foreach}
+	</table>
+</div>
+
+
