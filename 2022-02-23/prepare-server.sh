@@ -17,7 +17,8 @@ apt-get install -y \
   apache2-utils \
   iputils-ping \
   netcat \
-  libfcgi0ldbl
+  libfcgi0ldbl \
+  whois
 
 curl -fsSL https://get.docker.com -o get-docker.sh
 chmod +x get-docker.sh
