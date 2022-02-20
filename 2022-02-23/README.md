@@ -45,9 +45,9 @@ INFO ALL                        # redis command line tool
 ### PHP-FPM status
 
 ```bash
-export SCRIPT_NAME=/status \
-export SCRIPT_FILENAME=/status \
-export REQUEST_METHOD=GET \
+export SCRIPT_NAME=/status; \
+export SCRIPT_FILENAME=/status; \
+export REQUEST_METHOD=GET; \
 cgi-fcgi -bind -connect /root/php/data/sock/php.sock
 ```
 
