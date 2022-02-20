@@ -1,0 +1,6 @@
+{
+    "name": "app/app",
+    "require": {
+        "promphp/prometheus_client_php": "^2.4"
+    }
+}

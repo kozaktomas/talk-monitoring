@@ -1,0 +1,100 @@
+version: '3'
+services:
+  php:
+    build: php
+    volumes:
+      - ./php/app:/code
+      - ./data/sock:/sock
+      - ./php/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - ./php/php.ini:/usr/local/etc/php/php.ini
+  nginx:
+    build: nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./php/app/www:/code/www
+      - ./data/sock:/sock
+  redis:
+    image: redis
+  redis-exporter:
+    image: oliver006/redis_exporter
+    ports:
+      - "9121:9121"
+    command:
+      - "--redis.addr=redis://redis:6379"
+  php-exporter:
+    image: hipages/php-fpm_exporter
+    depends_on:
+      - php
+    volumes:
+      - ./data/sock:/sock
+    ports:
+      - "9253:9253"
+    command:
+      - "--phpfpm.scrape-uri"
+      - "unix:///sock/php.sock;/status"
+  nginx-exporter:
+    image: nginx/nginx-prometheus-exporter
+    ports:
+      - "9113:9113"
+    command:
+      - "-nginx.scrape-uri=http://nginx/basic_status"
+    depends_on:
+      - nginx
+  aws-health-exporter:
+    image: jimdo/aws-health-exporter
+    ports:
+      - "9383:9383"
+    command:
+      - "--aws.region=eu-west-1"
+  domains-exporter:
+    image: ghcr.io/kozaktomas/domain_exporter:main
+    ports:
+      - "9203:9203"
+    volumes:
+      - "./domains/domains.yml:/data/domains.yml"
+    command:
+      - "--config=/data/domains.yml"
+      - '--bind=:9203'
+      - '--sleep=40s'
+  node-exporter:
+    image: prom/node-exporter
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - --collector.filesystem.ignored-mount-points
+      - "^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)"
+    ports:
+      - "9100:9100"
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus:/etc/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+      - '--web.enable-lifecycle'
+      - '--web.enable-admin-api'
+    ports:
+      - "9090:9090"
+    depends_on:
+      - php-exporter
+      - nginx-exporter
+      - aws-health-exporter
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./grafana/provisioning/:/etc/grafana/provisioning/
+    env_file:
+      - ./grafana/config.monitoring
+    user: "472"
+    depends_on:
+      - prometheus
