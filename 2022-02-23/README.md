@@ -8,8 +8,9 @@ It basically installs useful command tools, docker and create some aliases.
 Then you can start whole docker-compose stack. It takes some time, no worries! More CPU = more speed!
 
 ```
-git clone this-repo monitoring-dva # or scp all file somewhere
-cd monitoring-dva
+git clone git@github.com:kozaktomas/talk-monitoring.git monitoring-demo
+# or scp all file somewhere ... somehow
+cd monitoring-demo/2022-02-23/
 make run
 ```
 
