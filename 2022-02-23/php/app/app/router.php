@@ -50,7 +50,8 @@ function getPromRegistry(): \Prometheus\CollectorRegistry
             'password' => null,
             'timeout' => 0.1, // in seconds
             'read_timeout' => '10', // in seconds
-            'persistent_connections' => false
+            'persistent_connections' => false,
+            'database' => 15,
         ]
     );
 

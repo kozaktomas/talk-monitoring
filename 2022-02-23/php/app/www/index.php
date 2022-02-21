@@ -18,17 +18,23 @@ route("/", function (): void {
     $redis->connect('redis');
     $key = "{$a}+{$b}";
     $result = $redis->get($key);
+    $status = "cached";
 
     if (!$result) {
         $result = add($a, $b);
         $redis->set($key, $result, 60);
+        $status = "calculated";
     }
 
     http_response_code(200);
     echo "$a + $b = ";
     echo $result;
+    echo " ({$status})";
 });
 
+
+// not that important part
+// please ignore me
 route("/links", function (): void {
     $baseUrl = "46.101.116.20";
     $links = [
