@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-# DO NOT USE FOR PRODUCTION ENVIRONMENT
+# DO NOT USE FOR PRODUCTION ENVIRONMENT (OR YOUR OWN MACHINE)
 # script prepare environment for docker-compose
 # tested on Ubuntu 20.04
 
