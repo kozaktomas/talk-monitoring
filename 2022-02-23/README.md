@@ -63,6 +63,7 @@ whois alza.cz
 - Exporters - https://prometheus.io/docs/instrumenting/exporters/
 - Exporter ports - https://github.com/prometheus/prometheus/wiki/Default-port-allocations
 - SRE books - https://sre.google/books/
+- Slides - https://docs.google.com/presentation/d/1_FTfBtyzcm5hxVdz8siDJdlTMu8yg2u2Ou-DLhScSP4/edit?usp=sharing
 
 ## Exporters and tools:
 
