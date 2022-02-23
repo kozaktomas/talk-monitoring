@@ -16,17 +16,19 @@ make run
 
 ### Running services (exposed ports)
 
-| Service name            | Port |
-|-------------------------|------|
-| Grafana                 | 3000 |
-| Prometheus              | 9090 |
-| Testing web app (nginx) | 8080 |
-| Redis exporter          | 9121 |
-| PHP exporter            | 9253 |
-| Nginx exporter          | 9113 |
-| AWS exporter            | 9383 |
-| Domains exporter        | 9203 |
-| Node exporter           | 9203 |
+| Service name            | Port  |
+|-------------------------|-------|
+| Grafana                 | 3000  |
+| Prometheus              | 9090  |
+| Alert manager           | 9093  |
+| Request basket          | 55555 |
+| Testing web app (nginx) | 8080  |
+| Redis exporter          | 9121  |
+| PHP exporter            | 9253  |
+| Nginx exporter          | 9113  |
+| AWS exporter            | 9383  |
+| Domains exporter        | 9203  |
+| Node exporter           | 9203  |
 
 ### Generate load (DOS attack)
 ```bash
@@ -62,6 +64,7 @@ whois alza.cz
 - Metric type - https://prometheus.io/docs/concepts/metric_types/
 - Exporters - https://prometheus.io/docs/instrumenting/exporters/
 - Exporter ports - https://github.com/prometheus/prometheus/wiki/Default-port-allocations
+- Alert manager configuration - https://prometheus.io/docs/alerting/latest/configuration/
 - SRE books - https://sre.google/books/
 - Slides - https://docs.google.com/presentation/d/1_FTfBtyzcm5hxVdz8siDJdlTMu8yg2u2Ou-DLhScSP4/edit?usp=sharing
 

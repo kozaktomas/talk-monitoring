@@ -1,0 +1,7 @@
+route:
+  receiver: 'rb'
+
+receivers:
+  - name: 'rb'
+    webhook_configs:
+      - url: 'http://request-basket:55555/demo'

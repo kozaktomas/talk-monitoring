@@ -36,10 +36,12 @@ route("/", function (): void {
 // not that important part
 // please ignore me
 route("/links", function (): void {
-    $baseUrl = "46.101.116.20";
+    $baseUrl = "demo";
     $links = [
         ["name" => "Grafana", "link" => "http://$baseUrl:3000/"],
         ["name" => "Prometheus", "link" => "http://$baseUrl:9090/"],
+        ["name" => "Alert manager", "link" => "http://$baseUrl:9093/"],
+        ["name" => "Request basket", "link" => "http://$baseUrl:55555/"],
         ["name" => "redis-exporter", "link" => "http://$baseUrl:9121/metrics"],
         ["name" => "php-exporter", "link" => "http://$baseUrl:9253/metrics"],
         ["name" => "nginx-exporter", "link" => "http://$baseUrl:9113/metrics"],

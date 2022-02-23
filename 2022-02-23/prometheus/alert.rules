@@ -1,0 +1,39 @@
+groups:
+- name: group-1
+  rules:
+
+  - alert: domain_expiration
+    expr: '(domain_expiration_seconds{}  - time()) / 60 / 60 / 24 < 350'
+    for: 5m
+    labels:
+      severity: critical
+    annotations:
+      summary: "{{ $labels.domain }} will expire soon"
+      description: "{{ $labels.domain }} will expire in {{ $value }} day(s)"
+
+  - alert: high_load
+    expr: node_load1 > 4
+    for: 2m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Instance {{ $labels.instance }} under high load"
+      description: "{{ $labels.instance }} of job {{ $labels.job }} is under high load."
+
+  - alert: no_space_left
+    expr: '100 - ((node_filesystem_avail_bytes{mountpoint="/",fstype!="rootfs"} * 100) / node_filesystem_size_bytes{mountpoint="/",fstype!="rootfs"}) > 90'
+    for: 2m
+    labels:
+      severity: critical
+    annotations:
+      summary: "{{ $labels.instance }} - not enough space left"
+      description: "{{ $labels.instance }} - there is {{ $value }} % remaining disk space"
+
+  - alert: service_down
+    expr: up == 0
+    for: 5m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Instance {{ $labels.instance }} down"
+      description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes."
